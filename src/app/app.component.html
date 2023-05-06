@@ -1,0 +1,18 @@
+<div>
+  <h2>Train Coach</h2>
+  <form #formRef="ngForm" (submit)="reserveSeats(formRef.value.numSeats)">
+      <label for="numSeats">Number of seats:</label>
+      <input type="number" name="numSeats" id="numSeats" required ngModel>
+      <button type="submit">Reserve</button>
+  </form>
+</div>
+
+
+<div class="coach">
+  <div *ngFor="let seat of seats; let i = index" 
+       [class.reserved]="seat" 
+       [class.available]="!seat" 
+       [class.last-row]="i >= 77">
+  </div>
+</div>
+

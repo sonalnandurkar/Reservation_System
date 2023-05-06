@@ -1,0 +1,35 @@
+p {
+  font-family: Lato;
+}
+.coach {
+  display: flex;
+  flex-wrap: wrap;
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.coach > div {
+  width: 12%;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border: 1px solid black;
+  margin-right: 1%;
+  margin-bottom: 10px;
+}
+
+.coach > div.reserved {
+  background-color: red;
+}
+
+.coach > div.available {
+  background-color: green;
+}
+
+.coach > div.last-row {
+  width: 9%;
+}
+.coach > div.selected {
+  background-color: yellow;
+}
