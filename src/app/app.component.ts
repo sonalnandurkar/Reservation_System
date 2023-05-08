@@ -6,19 +6,38 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  seats: boolean[] = new Array(80).fill(false);
-  numSeats: any;
+  seats: boolean[] = Array.from({ length: 80 }, () => false);
+
   constructor() {}
+
   reserveSeats(numSeats: number) {
     if (numSeats > 7) {
-      alert('you cannot reserved seats more than 7');
+      alert('You cannot reserve more than 7 seats.');
       return;
     }
+
+    const availableSeats = this.findAvailableSeats(numSeats);
+
+    if (!availableSeats) {
+      alert(`Sorry, there are no ${numSeats} seats available.`);
+      return;
+    }
+
+    const [startIndex, endIndex] = availableSeats;
+    const bookedSeats = [];
+
+    for (let i = startIndex; i <= endIndex; i++) {
+      this.seats[i] = true;
+      bookedSeats.push(i + 1);
+    }
+
+    alert(`Seats ${startIndex + 1} to ${endIndex + 1} reserved.`);
+  }
+ // Check for available seats
+  private findAvailableSeats(numSeats: number): [number, number] | null {
     let startIndex = -1;
     let endIndex = -1;
-    let bookedSeats: number[] = [];
 
-    // Check for available seats
     for (let i = 0; i < 80; i++) {
       if (!this.seats[i] && i + numSeats <= 80) {
         let consecutiveAvailable = true;
@@ -35,38 +54,29 @@ export class AppComponent {
         }
       }
     }
-
-    // If seats not available, try to find a row with enough available seats
+// If seats not available, try to find a row with enough available seats
     if (startIndex === -1) {
       for (let i = 0; i < 80; i += 7) {
-        let rowFull = true;
+        let availableSeats = 0;
         for (let j = i; j < i + 7; j++) {
           if (!this.seats[j]) {
-            rowFull = false;
-            if (startIndex === -1) {
-              startIndex = j;
+            availableSeats++;
+            if (availableSeats === numSeats) {
+              startIndex = j - numSeats + 1;
+              endIndex = j;
+              break;
             }
-            endIndex = j;
+          } else {
+            availableSeats = 0;
           }
         }
-        if (!rowFull && endIndex - startIndex + 1 >= numSeats) {
+        if (startIndex !== -1) {
           break;
-        } else {
-          startIndex = -1;
-          endIndex = -1;
         }
       }
     }
 
-    // Reserve seats if available
-    if (startIndex !== -1) {
-      for (let i = startIndex; i <= endIndex; i++) {
-        this.seats[i] = true;
-        bookedSeats.push(i + 1);
-      }
-      alert(`Seats ${startIndex + 1} to ${endIndex + 1} reserved.`);
-    } else {
-      alert(`Sorry, there are no ${numSeats} seats available.`);
-    }
+    return startIndex !== -1 ? [startIndex, endIndex] : null;
   }
 }
+

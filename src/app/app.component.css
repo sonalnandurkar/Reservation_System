@@ -33,3 +33,39 @@ p {
 .coach > div.selected {
   background-color: yellow;
 }
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+label {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+input[type='number'] {
+  margin-bottom: 10px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+small.form-text {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+button[type='submit'] {
+  padding: 10px;
+  font-size: 18px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button[type="submit"]: hover;
